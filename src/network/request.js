@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export function request(config) {
   const instance = axios.create({
-    baseURL: 'http://123.207.32.32:8000',
+    baseURL: 'http://123.207.32.32:8000',            //上传github时将baseURL清空，需要接口的添加微信coderwhy2
     timeout: 5000
   })
 

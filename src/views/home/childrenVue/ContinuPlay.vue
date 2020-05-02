@@ -54,7 +54,7 @@
         const currentimg = document.getElementsByClassName('slide')
         //滑动超过轮播图宽度的百分之40，则跳转下一张，否则不跳转
         if(this.MoveLength > 0 && this.CurrentImg !== this.banners.length-1){
-          if(this.MoveLength > this.bannerwidth * 0.4){
+          if(this.MoveLength > this.bannerwidth * 0.3){
             this.CurrentImg ++
             currentimg[0].style.marginLeft = -this.CurrentImg * this.bannerwidth + 'px'
           }
@@ -63,7 +63,7 @@
           }
         }
         else if(this.MoveLength < 0 && this.CurrentImg !== 0){
-          if(-this.MoveLength > this.bannerwidth * 0.4){
+          if(-this.MoveLength > this.bannerwidth * 0.3){
             this.CurrentImg --
             currentimg[0].style.marginLeft = -this.CurrentImg * this.bannerwidth + 'px'
           }
