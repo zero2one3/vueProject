@@ -36,8 +36,8 @@
     display: flex;
     text-align: center;
     font-size: 15px;
-    position: sticky;
-    top: 44px;
+    /*position: sticky;*/
+    /*top: 44px;*/
     background: #fff;
     z-index: 99;
   }

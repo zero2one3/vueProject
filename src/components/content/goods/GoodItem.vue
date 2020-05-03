@@ -1,5 +1,5 @@
 <template>
-  <div class="goodsitem">
+  <div class="goodsitem" @click="goodsitemClick">
 
     <div class="img">
       <img :src="goodsitems.show.img" alt="" class="goods-img" @load="Imghasload">
@@ -22,6 +22,9 @@
     methods:{
       Imghasload(){
         this.$bus.$emit('Imghasload')
+      },
+      goodsitemClick(){
+        this.$router.push('/detail/' + this.goodsitems.iid)
       }
     }
   }

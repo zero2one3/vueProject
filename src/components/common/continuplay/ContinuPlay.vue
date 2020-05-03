@@ -1,12 +1,7 @@
 <template>
     <div class="ContinuPlay_box" @touchstart="TouchStart" @touchmove="TouchMove" @touchend="TouchEnd">
-
       <div class="items_box">
-        <div v-for="(item, index) in banners" class="slide" :key="index">
-          <a :href="item.link">
-            <img :src="item.image" alt="">
-          </a>
-        </div>
+        <slot name="slide" />
       </div>
 
       <div class="points_box">
@@ -19,9 +14,13 @@
 </template>
 
 <script>
+
   export default {
     name: "ContinuPlay",
     props:['banners'],
+    components: {
+
+    },
     data(){
       return{
         bannerwidth: 0,        //轮播图宽度
@@ -30,7 +29,8 @@
         MoveLength: 0,         //StartPoint与EndPoint的差值
         CurrentImg: 0,         //当前轮播图的索引
         isPlaying: true,       //判断是否处于自动轮播
-        playTimer: null        //轮播定时器
+        playTimer: null,        //轮播定时器
+        isimgLoad: false       //判断Img是否加载
       }
     },
     methods:{
@@ -89,17 +89,14 @@
         else if(this.MoveLength < 0 && this.CurrentImg !== 0){
           currentimg[0].style.marginLeft = -this.MoveLength - this.CurrentImg * this.bannerwidth   + 'px'
         }
-      }
-    },
-    mounted() {
-
-      // if(this.isPlaying === true){
-      //   this.playTimer = setInterval(() => this.Jump(),3000)
-      // }
-      // else{
-      //   clearInterval(this.playTimer)
-      // }
-
+      },
+      // 告知home页面轮播图已经加载好了
+      // playimaload(){
+      //   if(!this.isimgLoad) {
+      //     this.$bus.$emit('playimaload')
+      //     this.isimgLoad = true
+      //   }
+      // },
     },
   }
 </script>
@@ -119,7 +116,6 @@
   }
   .ContinuPlay_box .slide img, .ContinuPlay_box .slide a{
     width: 100%;
-    height: 100%;
   }
 
 

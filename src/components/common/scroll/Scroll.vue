@@ -6,13 +6,14 @@
     </div>
   </div>
 
+
 </template>
 
 <script>
   import BScroll from 'better-scroll'
   export default {
     name: "Scroll",
-    props: ['probeType'],
+    props: ['probeType', 'pullUpLoad'],
     data(){
       return {
         scroll: null
@@ -22,7 +23,7 @@
       this.scroll = new BScroll(this.$refs.wrapper,{
         click: true,
         probeType: this.probeType,
-        pullUpLoad:true
+        pullUpLoad: this.pullUpLoad
       })
       //监听滚动时的坐标变化
       this.scroll.on('scroll', positon => {
