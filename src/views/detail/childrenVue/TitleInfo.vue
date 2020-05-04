@@ -1,5 +1,5 @@
 <template>
-  <div class="titleDetail">
+  <div class="titleDetail" v-if="Object.keys(goods).length !== 0">
 
     <div class="title">
       <span>{{goods.title}}</span>
@@ -32,11 +32,18 @@
 <script>
     export default {
       name: "TitleInfo",
-      props: ['goods'],
+      props: {
+        goods: {
+          type: Object
+        }
+      },
     }
 </script>
 
 <style scoped>
+  .titleDetail{
+    border-bottom: 6px solid #eee;
+  }
   .title{
     width: 100%;
     padding: 12px 8px;
@@ -69,7 +76,7 @@
     display: flex;
     margin: 20px 10px 0 10px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #666;
+    border-bottom: 2px solid #eee;
     opacity: 0.8;
   }
   .columns div{
@@ -77,12 +84,13 @@
     position: relative;
   }
   .columns .r span{
+    display: inline-block;
     position: relative;
-    right: -42px;
+    left: 30px;
   }
   .services{
     display: flex;
-    border-bottom: 8px solid #eee;
+    color: #333;
   }
   .each_service{
     flex: 1;
@@ -96,10 +104,11 @@
   .each_service .icon img{
     width: 50%;
     position: absolute;
-    right: 1px;
+    right: 2px;
   }
   .each_service .txt{
     flex: 3;
     white-space: nowrap;
+    font-size: 14px;
   }
 </style>

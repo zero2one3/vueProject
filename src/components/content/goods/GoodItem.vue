@@ -2,7 +2,9 @@
   <div class="goodsitem" @click="goodsitemClick">
 
     <div class="img">
-      <img :src="goodsitems.show.img" alt="" class="goods-img" @load="Imghasload">
+      <img :src="whichgoods === 'home' ? goodsitems.show.img : goodsitems.image"
+           alt="" class="goods-img"
+           @load="Imghasload">
     </div>
 
     <div class="info">
@@ -18,15 +20,21 @@
 <script>
   export default {
     name: "GoodItem",
-    props: ['goodsitems'],
+    props: ['goodsitems','whichgoods'],
     methods:{
       Imghasload(){
-        this.$bus.$emit('Imghasload')
+        if(this.whichgoods === 'home'){
+          this.$bus.$emit('Imghasload')
+        }
+        else if(this.whichgoods === 'detail'){
+          this.$bus.$emit('Commendhasload')
+        }
       },
       goodsitemClick(){
         this.$router.push('/detail/' + this.goodsitems.iid)
       }
-    }
+    },
+
   }
 </script>
 

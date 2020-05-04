@@ -1,6 +1,8 @@
 <template>
     <div class="goods_box">
-      <good-item v-for="item in goods" :goodsitems="item"/>
+      <good-item v-for="item in goods"
+                 :goodsitems="item"
+                 :whichgoods="whichgoods"/>
     </div>
 </template>
 
@@ -8,10 +10,12 @@
   import GoodItem from "./GoodItem";
   export default {
     name: "Goods",
-    props:['goods'],
+    props:['goods','whichgoods'],
     components:{
-      GoodItem
-    }
+      GoodItem,
+
+
+    },
   }
 </script>
 

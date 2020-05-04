@@ -6,7 +6,6 @@
     </div>
   </div>
 
-
 </template>
 
 <script>
@@ -33,7 +32,8 @@
       this.scroll.on('pullingUp', () => {
         this.$emit('pullingUp')
       })
-    }
+    },
+
   }
 </script>
 

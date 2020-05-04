@@ -17,11 +17,11 @@
             :pullUpLoad="true"
             @scroll="contentsScroll"
             @pullingUp="loadmore">
-      <ContinuePlayHome :banners="banners"></ContinuePlayHome>
+      <ContinuePlayHome :banners="banners"/>
       <Recommends :recommends="recommends"/>
       <WeekHot/>
       <TabControl :controlItems="['流行','新款','精选']" @tabControlClick="GetGoodsType" ref="tabcontrol"/>
-      <Goods :goods="Goods[currentGoodsType].list"/>
+      <Goods :goods="Goods[currentGoodsType].list" whichgoods="home"/>
     </Scroll>
 
     <back-top @click.native="BackTopClick" v-show="backUp_isShow"/>
