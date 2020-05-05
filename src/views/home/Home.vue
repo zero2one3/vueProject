@@ -7,7 +7,7 @@
     <TabControl
       :controlItems="['流行','新款','精选']"
       @tabControlClick="GetGoodsType"
-      ref="tabcontrol"
+      ref="tabcontrolFade"
       :class="{fixed:isTabShow}"
       v-show="isTabShow"/>
 
@@ -118,8 +118,12 @@
           this.Goods[type].list.push(...res.data.list)
         })
       },
-      GetGoodsType(type){
+      GetGoodsType(type, index){
+        //获得当前的Tabcontrol类型
         this.currentGoodsType = type
+        //使两个tabcontrol的active保持一直
+        this.$refs.tabcontrolFade.currentItem = index
+        this.$refs.tabcontrol.currentItem = index
       },
       //返回顶部
       BackTopClick(){

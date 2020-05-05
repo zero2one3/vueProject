@@ -38,6 +38,7 @@
     methods: {
       titleClick(i){
         this.currentTitle = i
+        this.$emit('navbarClick', i)
       },
       backClick(){
         this.$router.back()

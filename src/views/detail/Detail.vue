@@ -1,6 +1,6 @@
 <template>
   <div class="detail">
-    <DetailNavBaritem class="navbar clear-fix"/>
+    <DetailNavBaritem class="navbar clear-fix" @navbarClick="navbarClick" ref="navbar"/>
 
     <Scroll :probe-type="3"
             :pull-up-load="true"
@@ -10,11 +10,12 @@
       <ContinuePlayDetail :banners="topImgaes" class="deftailPlay"/>
       <TitleInfo :goods="goods" />
       <ShopInfo :shop="shop"/>
-      <GoodsInfo :detail-info="detailInfo"/>
-      <Params :paramInfo= 'goodsParams'/>
-      <Comments :commentInfo="commentsInfo"/>
-      <Commend :recommends="recommends"/>
+      <GoodsInfo :detail-info="detailInfo" @goodsImgLoad="goodsImgLoad"/>
+      <Params :paramInfo= 'goodsParams' ref="params"/>
+      <Comments :commentInfo="commentsInfo" ref="comment"/>
+      <Commend :recommends="recommends" ref="commend"/>
     </Scroll>
+    <DetailBottomBar @addToCart="addToCart"/>
     <BackTop @click.native="BackTopClick" v-show="backUp_isShow"/>
   </div>
 </template>
@@ -33,6 +34,7 @@
   import Params from "./childrenVue/GoodsParams";
   import Comments from "./childrenVue/Comments";
   import Commend from "./childrenVue/Commend";
+  import DetailBottomBar from "./childrenVue/DetailBottomBar";
 
   export default {
     name: "Detail",
@@ -46,7 +48,8 @@
       GoodsInfo,
       Params,
       Comments,
-      Commend
+      Commend,
+      DetailBottomBar
     },
     data(){
       return{
@@ -59,6 +62,10 @@
         commentsInfo: {},
         recommends: {},
         backUp_isShow: false,
+        followY: [],
+        navbarIndex: 0,
+
+
       }
     },
     created() {
@@ -109,7 +116,30 @@
         //判断返回顶部按钮的隐藏和出现
         this.backUp_isShow = (-position.y) > 1000
         //判断tabcontrol是否吸顶
-        this.isTabShow = (-position.y) >this.tabcontrolTop
+        this.isTabShow = (-position.y) > this.tabcontrolTop
+        //滚动内容时将内容坐标与导航栏标题匹配起来
+        if(-position.y >= this.followY[0] && -position.y < this.followY[1]){this.$refs.navbar.currentTitle = 0}
+        else if(-position.y >= this.followY[1] && -position.y < this.followY[2]){this.$refs.navbar.currentTitle = 1}
+        else if(-position.y >= this.followY[2] && -position.y < this.followY[3]){this.$refs.navbar.currentTitle = 2}
+        else if(-position.y >= this.followY[3]){this.$refs.navbar.currentTitle = 3}
+      },
+      //点击详情页导航栏，跳转相应位置
+      navbarClick(index){
+        this.$refs.scroll.scroll.scrollTo(0, -this.followY[index], 500)
+        this.navbarIndex = index
+      },
+      //监听详情页的加入购物车事件
+      addToCart(){
+        //先获取添加的商品需要在购物车展示的数据
+        const cartgoods = {}
+        cartgoods.iid = this.iid
+        cartgoods.image = this.topImgaes[0]
+        cartgoods.title = this.goods.title
+        cartgoods.price = this.goods.realPrice
+        cartgoods.desc = this.goods.desc
+        cartgoods.count = 1
+        //将商品添加到vuex中
+        this.$store.dispatch('addGoods', cartgoods)
       },
     },
     mounted() {
@@ -118,6 +148,14 @@
         //刷新滚动距离
         this.$refs.scroll.scroll.refresh()
       })
+    },
+    updated() {
+      //获取详情页参数、评论、推荐  三个组件的TopY值
+      this.followY = []
+      this.followY.push(0)
+      this.followY.push(this.$refs.params.$el.offsetTop)
+      this.followY.push(this.$refs.comment.$el.offsetTop)
+      this.followY.push(this.$refs.commend.$el.offsetTop)
     },
     beforeDestroy() {
       //清除事件总线中的监听事件

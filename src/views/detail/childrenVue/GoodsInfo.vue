@@ -15,7 +15,7 @@
              :key="index"
              alt=""
              class="each-img"
-             @load="imgLoad(index, detailInfo.detailImage[0].list.length)">
+             @load="imgLoad">
       </div>
 
     </div>
@@ -31,15 +31,20 @@
     },
     data(){
       return{
+        timer: null
       }
     },
     methods: {
-      //可以优化性能（只传回一次图片数量）
-      imgLoad(index, length){
-        if(index === length){
-          this.$emit('goodsImgLoad')
+      //防抖，限制图片发送刷新次数，优化性能
+      imgLoad(){
+        if(this.timer){
+          clearTimeout(this.timer)
         }
-      }
+        this.timer = setTimeout(() => {
+          // console.log('发送一次图片刷新请求')
+          this.$emit('goodsImgLoad')
+        },500)
+      },
     }
   }
 </script>

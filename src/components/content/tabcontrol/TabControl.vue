@@ -25,7 +25,7 @@
         GetIndex(index){
           this.currentItem = index
           this.currentType = this.Types[index]
-          this.$emit('tabControlClick', this.currentType)
+          this.$emit('tabControlClick', this.currentType, this.currentItem)
         }
       }
     }
