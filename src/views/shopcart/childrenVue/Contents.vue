@@ -1,5 +1,5 @@
 <template>
-    <div class="contents">
+    <div class="contents" v-if="isCreat">
 
       <div v-for="(item, index) in $store.state.goodLists"
            :key="index"
@@ -39,6 +39,7 @@
     name: "Contents",
     data(){
       return{
+        isCreat : false
       }
     },
     methods: {
@@ -63,6 +64,9 @@
     updated() {
       //监听购物车全选框的实时状态
       this.$store.commit('allpointsisshow')
+    },
+    created() {
+      this.isCreat = true
     }
   }
 </script>

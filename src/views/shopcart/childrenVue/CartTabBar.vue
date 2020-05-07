@@ -15,7 +15,7 @@
 
       <div class="sumPrice">
         <span>合&nbsp;计：</span>
-        <span>￥&nbsp;12.22</span>
+        <span>￥&nbsp;{{$store.getters.sumPrice}}</span>
       </div>
 
     </div>

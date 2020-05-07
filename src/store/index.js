@@ -15,7 +15,7 @@ const state = {
   //购物车中每个商品的勾选情况
   YESorNo: [],
   //记录购物车全选框的状态
-  allPointIsShow: true
+  allPointIsShow: true,
 }
 
 export default new Vuex.Store({

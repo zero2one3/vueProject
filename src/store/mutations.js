@@ -41,6 +41,5 @@ export default {
       if(i.isShow === false){show = false}
     }
     state.allPointIsShow = show
-  }
-
+  },
 }

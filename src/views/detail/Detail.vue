@@ -17,6 +17,7 @@
     </Scroll>
     <DetailBottomBar @addToCart="addToCart"/>
     <BackTop @click.native="BackTopClick" v-show="backUp_isShow"/>
+    <Alert :is-show="alert_isShow"/>
   </div>
 </template>
 
@@ -25,6 +26,7 @@
 
   import Scroll from "../../components/common/scroll/Scroll";
   import BackTop from "../../components/content/backtop/BackTop";
+  import Alert from "./childrenVue/Alert";
 
   import DetailNavBaritem from "./childrenVue/DetailNavBaritem";
   import ContinuePlayDetail from "./childrenVue/ContinuePlayDetail";
@@ -41,6 +43,7 @@
     components: {
       Scroll,
       BackTop,
+      Alert,
       DetailNavBaritem,
       ContinuePlayDetail,
       TitleInfo,
@@ -53,18 +56,18 @@
     },
     data(){
       return{
-        iid: null,
-        topImgaes: [],
-        goods: {},
-        shop: {},
-        detailInfo:{},
-        goodsParams: {},
-        commentsInfo: {},
-        recommends: {},
-        backUp_isShow: false,
-        followY: [],
-        navbarIndex: 0,
-
+        iid: null,                 //商品iid值
+        topImgaes: [],             //详情页轮播图图片
+        goods: {},                 //详情页商品基本信息
+        shop: {},                  //详情页店铺信息
+        detailInfo:{},             //商品详情信息
+        goodsParams: {},           //商品参数信息
+        commentsInfo: {},          //商品评论信息
+        recommends: {},            //详情页底部推荐商品
+        backUp_isShow: false,      //记录返回顶部按钮的状态
+        followY: [],               //记录滚动Y方向的位置
+        navbarIndex: 0,            //记录当前滚动位置对应导航栏中哪个标签
+        alert_isShow: false,       //记录'成功加入购物车弹框的状态'
 
       }
     },
@@ -140,6 +143,9 @@
         cartgoods.count = 1
         //将商品添加到vuex中
         this.$store.dispatch('addGoods', cartgoods)
+        //在此页面显示‘成功加入购物车的弹框’
+        this.alert_isShow = true
+        setTimeout(() => {this.alert_isShow =false},2000)
       },
     },
     mounted() {
