@@ -11,7 +11,7 @@
     props: ['recommends'],
     components: {
       Goods
-    }
+    },
   }
 </script>
 
