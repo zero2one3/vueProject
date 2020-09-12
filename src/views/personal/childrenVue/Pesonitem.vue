@@ -66,8 +66,8 @@
   }
   .content .bind img{
     width: 8%;
-    position: relative;
-    top:50%;
+    position: absolute;
+    top: 50%;
     transform: translate(0, -50%);
     float: left;
   }
@@ -76,6 +76,7 @@
     float: left;
     display: flex;
     align-items: center;
+    margin-left: 30px;
   }
   .content .bind .txt span{
     font-size: 15px;

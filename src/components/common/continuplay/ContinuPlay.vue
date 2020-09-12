@@ -1,12 +1,15 @@
 <template>
     <div class="ContinuPlay_box" @touchstart="TouchStart" @touchmove="TouchMove" @touchend="TouchEnd">
       <div class="items_box">
-        <slot name="slide" />
+        <slot name="slide"/>
       </div>
 
       <div class="points_box">
         <div class="points">
-          <div class="each_point" v-for="(item, index) in banners.length" :key="index" :class="{current:index==CurrentImg}"></div>
+          <div class="each_point" 
+               v-for="(item, index) in banners.length" 
+               :key="index" 
+               :class="{current:index==CurrentImg}"/>
         </div>
       </div>
 
@@ -17,9 +20,8 @@
 
   export default {
     name: "ContinuPlay",
-    props:['banners'],
-    components: {
-
+    props:{
+      banners: {},
     },
     data(){
       return{
@@ -29,31 +31,42 @@
         MoveLength: 0,         //StartPoint与EndPoint的差值
         CurrentImg: 0,         //当前轮播图的索引
         isPlaying: true,       //判断是否处于自动轮播
-        playTimer: null,        //轮播定时器
-        isimgLoad: false       //判断Img是否加载
+        isimgLoad: false,      //判断Img是否加载
+        playTimer: null        //轮播定时器 
       }
     },
     methods:{
+      anima(value) {
+        this.$emit('anima', value)
+      },
       TouchStart(event){
         //告知轮播图停止
         this.isPlaying = false
+
+        this.anima(false)
+
         //获取触摸的开始点
         this.StartPoint = event.changedTouches[0].pageX
       },
-      TouchMove(event){
+      TouchMove(event) {
         //获取触摸的结束点
         this.EndPoint = event.changedTouches[0].pageX
         this.slidings()
       },
-      TouchEnd(){
+      TouchEnd() {
         this.Jump()
         //告知轮播图开始轮播
         this.isPlaying = true
+
+        this.anima(true)
       },
       Jump(){
         const currentimg = document.getElementsByClassName('slide')
+
+        this.bannerwidth = currentimg[0].offsetWidth
+
         //滑动超过轮播图宽度的百分之40，则跳转下一张，否则不跳转
-        if(this.MoveLength > 0 && this.CurrentImg !== this.banners.length-1){
+        if(this.MoveLength > 0 && this.CurrentImg !== this.banners.length - 1){
           if(this.MoveLength > this.bannerwidth * 0.3){
             this.CurrentImg ++
             currentimg[0].style.marginLeft = -this.CurrentImg * this.bannerwidth + 'px'
@@ -72,16 +85,12 @@
           }
 
         }
-
-
       },
       slidings(){
         //判断是点击还是滑动
         if(this.StartPoint === this.EndPoint){return}
         this.MoveLength = this.StartPoint - this.EndPoint
         const currentimg = document.getElementsByClassName('slide')
-        //获取轮播图的宽度
-        this.bannerwidth = currentimg[0].offsetWidth
         //判断是否超出滑动范围
         if(this.MoveLength > 0 && this.CurrentImg !== this.banners.length-1){
           currentimg[0].style.marginLeft = -this.MoveLength - this.CurrentImg * this.bannerwidth   + 'px'
@@ -90,14 +99,32 @@
           currentimg[0].style.marginLeft = -this.MoveLength - this.CurrentImg * this.bannerwidth   + 'px'
         }
       },
-      // 告知home页面轮播图已经加载好了
-      // playimaload(){
-      //   if(!this.isimgLoad) {
-      //     this.$bus.$emit('playimaload')
-      //     this.isimgLoad = true
-      //   }
-      // },
+      autoJump() {
+        if(this.isPlaying) {
+          const currentimg = document.getElementsByClassName('slide')
+          if(this.bannerwidth === 0) {
+            //获取轮播图的宽度
+            this.bannerwidth = currentimg[0].offsetWidth
+          }
+          if(this.CurrentImg < this.banners.length - 1) {
+            this.CurrentImg ++
+          } else {
+            this.CurrentImg = 0
+          }
+          
+          currentimg[0].style.marginLeft = -this.CurrentImg * this.bannerwidth + 'px'
+        }   
+      }
     },
+    activated() {
+      this.anima(true)
+      this.playTimer = setInterval(() => {
+        this.autoJump()
+      }, 3000)
+    },
+    deactivated() {
+      clearInterval(this.playTimer)
+    }
   }
 </script>
 
@@ -112,13 +139,13 @@
   .ContinuPlay_box .slide{
     flex-shrink: 0;
     width: 100%;
-
+  }
+  .isPlay{
+    transition: all .3s;
   }
   .ContinuPlay_box .slide img, .ContinuPlay_box .slide a{
     width: 100%;
   }
-
-
   .points_box{
     display: flex;
     justify-content: center;

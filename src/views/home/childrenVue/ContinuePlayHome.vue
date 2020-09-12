@@ -1,6 +1,10 @@
 <template>
-  <ContinuPlay :banners="banners">
-    <div v-for="(item, index) in banners" class="slide" :key="index" slot="slide">
+  <ContinuPlay :banners="banners" @anima="anima">
+    <div v-for="(item, index) in banners" 
+         class="slide" 
+         :key="index" 
+         slot="slide" 
+         :class="[{'isPlay': isPlay}]">
       <a :href="item.link">
         <img :src="item.image" alt="" @load="playimaload">
       </a>
@@ -14,6 +18,11 @@
   export default {
     name: "ContinuePlayItem",
     props: ['banners'],
+    data() {
+      return {
+        isPlay: true
+      }
+    },
     components: {
       ContinuPlay
     },
@@ -25,11 +34,16 @@
           this.isimgLoad = true
         }
       },
+      anima(value) {
+        this.isPlay = value
+      }
     },
 
   }
 </script>
 
 <style scoped>
-
+  .isPlay{
+    transition: all .3s;
+  }
 </style>

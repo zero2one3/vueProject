@@ -75,7 +75,7 @@
       //获取当前iid
       this.iid = this.$route.params.iid
       //请求商品数据
-      this.GetDetailDate()
+      this.GetDetailDates()
       //请求商品推荐数据
       GetCommend().then(res => {
         this.recommends = res.data.list
@@ -83,7 +83,7 @@
     },
     methods: {
       //请求详情页数据
-      GetDetailDate(){
+      GetDetailDates(){
         GetDetailDate(this.iid).then(res => {
           const data = res.result
           //获取轮播图图片
@@ -100,10 +100,6 @@
           if(data.rate.list){
             this.commentsInfo = data.rate.list[0]
           }
-          //如果没有用户评论就返回还没有用户进行评论
-          // else{
-          //   this.commentsInfo = '还没有用户进行评论'
-          // }
         })
       },
       //检测商品详情图片是否加载完成
